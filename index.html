@@ -11,18 +11,49 @@
   </head>
   <body>
     <script type="text/javascript" src="js/three.js"></script>
-    <script type="x-shader/x-vertex" id="vertexShader">
-    </script>
-    <script type="x-shader/x-fragment" id="fragmentShader">
-    </script>
     <script type="text/javascript">
+      var camera, renderer, scene, clock, delta;
+
       function setup() {
+        setupThreeJS();
+        setupWorld();
+
+        requestAnimationFrame(function animate() {
+            renderer.render(scene, camera);
+
+            delta = clock.getDelta();
+            box.rotation.x += delta;
+            box.rotation.y += delta;
+
+            requestAnimationFrame(animate);
+        });
       }
 
       function setupThreeJS() {
+        camera = new THREE.PerspectiveCamera(75,
+            window.innerWidth / window.innerHeight, 1, 10000);
+        camera.position.z = 20;
+
+        renderer = new THREE.WebGLRenderer({antialiasing: true});
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setClearColor(0x000000);
+
+        scene = new THREE.Scene();
+        clock = new THREE.Clock();
+
+        document.body.appendChild(renderer.domElement);
       }
 
       function setupWorld() {
+        box = new THREE.Mesh(
+            new THREE.BoxGeometry(10, 10, 10),
+            new THREE.MeshLambertMaterial({color: Math.random() * 0xffffff})
+        );
+        scene.add(box);
+
+        var pointLight = new THREE.PointLight(0xffffff, 1.0);
+        pointLight.position.z = 100;
+        scene.add(pointLight);
       }
 
       setup();
