@@ -8,9 +8,12 @@ every release.
 
 ## Dependencies
 
-- three.js r72
+- three.js
 
 ## Changelog
+
+#### Changed
+- Use three.js r74
 
 ### [0.1.1] - 2015-10-06
 #### Added
